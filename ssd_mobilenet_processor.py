@@ -11,37 +11,7 @@ import numpy as numpy
 import cv2
 import queue
 import threading
-from queue import Queue
 
-frames = Queue(10)
-
-class AsyncSsdMobileNetProcessor(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-        print('AsyncSsdMobileNetProcessor initialized.')
-
-    def run(self):
-        global frames
-        while True:
-            if(not frames.empty()):
-                print('[AsyncSsdMobileNetProcessor] Getting frame')
-
-                # resize image to network width and height
-                # then convert to float32, normalize (divide by 255),
-                # and finally convert to float16 to pass to LoadTensor as input
-                # for an inference
-                # this returns a new image so the input_image is unchanged
-                inference_image = cv2.resize(frames.get(),
-                                         (SsdMobileNetProcessor.SSDMN_NETWORK_IMAGE_WIDTH,
-                                          SsdMobileNetProcessor.SSDMN_NETWORK_IMAGE_HEIGHT),
-                                         cv2.INTER_LINEAR)
-
-                # modify inference_image for network input
-                inference_image = inference_image - 127.5
-                inference_image = inference_image * 0.007843
-
-                # Load tensor and get result.  This executes the inference on the NCS
-                self._graph.queue_inference_with_fifo_elem(self._fifo_in, self._fifo_out, inference_image.astype(numpy.float32), input_image)
 
 class SsdMobileNetProcessor:
 
@@ -126,9 +96,26 @@ class SsdMobileNetProcessor:
              it can be any size but is assumed to be opencv standard format of BGRBGRBGR...
         :return: None
         """
-        print('[start_aysnc_inference] Putting image in queue')
-        frames.put(input_image)
+
+        # resize image to network width and height
+        # then convert to float32, normalize (divide by 255),
+        # and finally convert to float16 to pass to LoadTensor as input
+        # for an inference
+        # this returns a new image so the input_image is unchanged
+        inference_image = cv2.resize(input_image,
+                                 (SsdMobileNetProcessor.SSDMN_NETWORK_IMAGE_WIDTH,
+                                  SsdMobileNetProcessor.SSDMN_NETWORK_IMAGE_HEIGHT),
+                                 cv2.INTER_LINEAR)
+
+        # modify inference_image for network input
+        inference_image = inference_image - 127.5
+        inference_image = inference_image * 0.007843
+
+        # Load tensor and get result.  This executes the inference on the NCS
+        self._graph.queue_inference_with_fifo_elem(self._fifo_in, self._fifo_out, inference_image.astype(numpy.float32), input_image)
+
         return
+
 
     # Reads the next available object from the output FIFO queue.
     # If there is nothing on the output FIFO, this fuction will block indefinitiley
@@ -312,6 +299,7 @@ class SsdMobileNetProcessor:
                                                 ])
         return classes_boxes_and_probs
 
-asyncSsdMobileNetProcessor = AsyncSsdMobileNetProcessor()
-asyncSsdMobileNetProcessor.start()
-asyncSsdMobileNetProcessor.join()
+
+
+
+

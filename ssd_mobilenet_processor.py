@@ -12,7 +12,7 @@ import cv2
 import queue
 import threading
 
-frames = Queue(1)
+frames = queue(1)
 
 class AsyncSsdMobileNetProcessor(threading.Thread):
     def __init__(self):

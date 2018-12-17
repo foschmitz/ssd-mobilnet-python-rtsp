@@ -10,10 +10,9 @@ from mvnc import mvncapi as mvnc
 import numpy as numpy
 import cv2
 import queue
-import Queue
 import threading
 
-frames = Queue(1)
+frames = queue(10)
 
 class AsyncSsdMobileNetProcessor(threading.Thread):
     def __init__(self):

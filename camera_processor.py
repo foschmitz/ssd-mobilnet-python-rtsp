@@ -160,7 +160,10 @@ class CameraProcessor:
                 self._output_queue.put(input_image, True, self._queue_put_wait_max)
 
             except queue.Full:
-                # do nothing and continue reading frames to avoid h264 error with RTSP and just grab the next frame in the queue
+                # the video device is probably way faster than the processing
+                # so if our output queue is full sleep a little while before
+                # trying the next image from the video.
+                time.sleep(self._queue_full_sleep_seconds)
 
         print('exiting video_processor worker thread for queue')
 

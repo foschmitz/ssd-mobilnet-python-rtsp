@@ -23,9 +23,6 @@ class AsyncSsdMobileNetProcessor(threading.Thread):
     def run(self):
         global frames
         while True:
-
-            print('[AsyncSsdMobileNetProcessor] Trying to get frame')
-
             if(not frames.empty()):
                 print('[AsyncSsdMobileNetProcessor] Getting frame')
 
@@ -45,9 +42,6 @@ class AsyncSsdMobileNetProcessor(threading.Thread):
 
                 # Load tensor and get result.  This executes the inference on the NCS
                 self._graph.queue_inference_with_fifo_elem(self._fifo_in, self._fifo_out, inference_image.astype(numpy.float32), input_image)
-            else:
-                print('[AsyncSsdMobileNetProcessor] Frames empty')
-
 
 class SsdMobileNetProcessor:
 

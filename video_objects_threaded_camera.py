@@ -107,7 +107,8 @@ def overlay_on_image(display_image:numpy.ndarray, object_info_list:list):
     for one_object in object_info_list:
         percentage = int(one_object[5] * 100)
 
-        label_text = one_object[0] + " (" + str(percentage) + "%)"
+        label = one_object[0]
+        label_text = label + " (" + str(percentage) + "%)"
         box_left =  int(one_object[1])  # int(object_info[base_index + 3] * source_image_width)
         box_top = int(one_object[2]) # int(object_info[base_index + 4] * source_image_height)
         box_right = int(one_object[3]) # int(object_info[base_index + 5] * source_image_width)
@@ -144,8 +145,8 @@ def overlay_on_image(display_image:numpy.ndarray, object_info_list:list):
         filename = label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '.jpg'
 
         roi = org_image[box_top:box_bottom, box_left:box_right]
-        asyncImWriter.imwrite(filename, roi, label_text, False)
-        asyncImWriter.imwrite(filename, display_image, label_text, True)
+        asyncImWriter.imwrite(filename, roi, label, False)
+        asyncImWriter.imwrite(filename, display_image, label, True)
         print('saved', filename)
     return agg_results
 

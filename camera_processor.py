@@ -39,7 +39,7 @@ class CameraProcessor:
         self._camera_index = camera_index
         self._request_video_width = request_video_width
         self._request_video_height = request_video_height
-        self._pause_mode = True
+        self._pause_mode = False
 
         # create the video device
         self._video_device = cv2.VideoCapture(self._camera_index)
@@ -160,10 +160,7 @@ class CameraProcessor:
                 self._output_queue.put(input_image, True, self._queue_put_wait_max)
 
             except queue.Full:
-                # the video device is probably way faster than the processing
-                # so if our output queue is full sleep a little while before
-                # trying the next image from the video.
-                time.sleep(self._queue_full_sleep_seconds)
+                # do nothing and continue reading frames to avoid h264 error with RTSP and just grab the next frame in the queue
 
         print('exiting video_processor worker thread for queue')
 

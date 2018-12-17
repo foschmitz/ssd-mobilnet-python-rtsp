@@ -55,6 +55,9 @@ resize_output = True
 resize_output_width = 640
 resize_output_height = 360
 
+# Does not generate output
+show_output = False
+
 
 def handle_keys(raw_key:int, obj_detector_proc:SsdMobileNetProcessor):
     """Handles key presses by adjusting global thresholds etc.
@@ -320,19 +323,20 @@ def main():
             agg_results = overlay_on_image(display_image, filtered_objs)
             num_persons = len(agg_results)
 
-            if (resize_output):
-                display_image = cv2.resize(display_image,
-                                            (resize_output_width, resize_output_height),
-                                            cv2.INTER_LINEAR)
-            cv2.imshow(cv_window_name, display_image)
+            if (show_output):
+                if (resize_output):
+                    display_image = cv2.resize(display_image,
+                                                (resize_output_width, resize_output_height),
+                                                cv2.INTER_LINEAR)
+                cv2.imshow(cv_window_name, display_image)
 
-            raw_key = cv2.waitKey(1)
-            if (raw_key != -1):
-                if (handle_keys(raw_key, obj_detector_proc) == False):
-                    end_time = time.time()
-                    exit_app = True
-                    video_proc.stop_processing()
-                    break
+                raw_key = cv2.waitKey(1)
+                if (raw_key != -1):
+                    if (handle_keys(raw_key, obj_detector_proc) == False):
+                        end_time = time.time()
+                        exit_app = True
+                        video_proc.stop_processing()
+                        break
 
             frame_count += 1
 

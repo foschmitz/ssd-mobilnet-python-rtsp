@@ -195,10 +195,7 @@ class CameraProcessor:
                     print("No image from video device, exiting")
                     break
                 if (frame_counter%3==0):
-                    print("Putting frame in queue")
                     self._network_processor.start_aysnc_inference(input_image)
-                else:
-                    print("Skipping frame")
 
             except Exception:
                 # the video device is probably way faster than the processing

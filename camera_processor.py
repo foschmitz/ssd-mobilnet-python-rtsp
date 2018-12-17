@@ -39,7 +39,7 @@ class CameraProcessor:
         self._camera_index = camera_index
         self._request_video_width = request_video_width
         self._request_video_height = request_video_height
-        self._pause_mode = True
+        self._pause_mode = False
 
         # create the video device
         self._video_device = cv2.VideoCapture(self._camera_index)
@@ -142,7 +142,7 @@ class CameraProcessor:
 
         :return: None
         """
-        print('[_do_work_queue] in video_processor worker thread')
+        print('in video_processor worker thread')
         if (self._video_device == None):
             print('video_processor _video_device is None, returning.')
             return
@@ -176,7 +176,7 @@ class CameraProcessor:
 
         :return: None
         """
-        print('[_do_work_network_processor] in video_processor worker thread')
+        print('in video_processor worker thread')
         if (self._video_device == None):
             print('video_processor _video_device is None, returning.')
             return

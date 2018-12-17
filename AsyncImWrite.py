@@ -46,13 +46,13 @@ class AsyncImWrite:
                 break
             else:
                 result = cv2.imwrite(item.name, item.data)
-    def imwrite(self, name, data, class, full):
+    def imwrite(self, name, data, label, full):
         if (self.__baseDir):
             dirname = self.__baseDir
             if (full):
-                dirname = os.path.join(dirname, class, 'full')
+                dirname = os.path.join(dirname, label, 'full')
             else:
-                dirname = os.path.join(dirname, class)
+                dirname = os.path.join(dirname, label)
 
             if not os.path.exists(dirname):
                 os.makedirs(dirname)

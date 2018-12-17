@@ -132,14 +132,16 @@ def overlay_on_image(display_image:numpy.ndarray, object_info_list:list):
         if one_object[0] == 'person':
             agg_results.append({'percentage': percentage, 'center': get_center_from_object_info(one_object)})
         
-        # Saving Image
-    
-        filename = label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '_conf' + "{:.2f}".format(percentage) + '.jpg'
+        # Saving Images
+        filenameB = 'boundingbox_' + label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '.jpg'
+        filenameF = 'full_' + label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '.jpg'
+        
+        print('saving roi', box_left, box_top, box_right, box_bottom)
         
         roi = display_image[box_left:box_top, box_right:box_bottom]
-        
-        asyncImWriter.imwrite(filename, roi)
-        print('save', filename)
+        asyncImWriter.imwrite(filenameB, roi)
+        asyncImWriter.imwrite(filenameF, display_image)
+        print('saved', filenameF)
     return agg_results
 
 def handle_args():

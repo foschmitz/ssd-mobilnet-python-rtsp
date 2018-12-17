@@ -22,15 +22,16 @@ asyncImWriter = AsyncImWrite()
 # for example if object_classifications_mask[1] == 0 then
 #    will ignore aeroplanes
 
-#Detect Persons, Cats, Dogs, Cars
-#object_classifications_mask = [0, 0, 0, 0, 0, 0, 1,
-#                               1, 1, 0, 0, 0, 1, 1,
-#                               1, 1, 0, 0, 0, 0, 0]
-#
+#Detect Buses, Cars, Cats, Dogs, Horses, Motorbikes, Persons
+object_classifications_mask = [0, 0, 0, 0, 0, 0, 1,
+                               1, 1, 0, 0, 0, 1, 1,
+                               1, 1, 0, 0, 0, 0, 0]
+
 # Detect all stuff for testing
-object_classifications_mask = [1, 1, 1, 1, 1, 1, 1,
-                              1, 1, 1, 1, 1, 1, 1,
-                              1, 1, 1, 1, 1, 1, 1]
+#object_classifications_mask = [1, 1, 1, 1, 1, 1, 1,
+#                              1, 1, 1, 1, 1, 1, 1,
+#                              1, 1, 1, 1, 1, 1, 1]
+
 
 NETWORK_GRAPH_FILENAME = "./graph"
 

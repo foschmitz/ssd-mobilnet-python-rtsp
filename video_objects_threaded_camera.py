@@ -21,9 +21,9 @@ asyncImWriter = AsyncImWrite()
 # default is to accept all object clasifications.
 # for example if object_classifications_mask[1] == 0 then
 #    will ignore aeroplanes
-object_classifications_mask = [0, 0, 0, 0, 0, 1, 1,
-                               1, 1, 1, 0, 0, 1, 0,
-                               0, 1, 0, 0, 0, 0, 0]
+object_classifications_mask = [0, 0, 0, 0, 0, 0, 1,
+                               1, 1, 0, 0, 0, 1, 1,
+                               1, 1, 0, 0, 0, 0, 0]
 
 NETWORK_GRAPH_FILENAME = "./graph"
 
@@ -285,7 +285,7 @@ def main():
     exit_app = False
     while (True):
         # video processor that will put video frames images on the object detector's input FIFO queue
-        video_proc = CameraProcessor(CAMERA_INDEX, network_processor = obj_detector_proc)
+        video_proc = CameraProcessor(CAMERA_INDEX, 1920, 1080, network_processor = obj_detector_proc)
         video_proc.start_processing()
 
         frame_count = 0

@@ -14,7 +14,7 @@ class AsyncImWrite:
     A singleton class for AsyncImWrite
     """
     __baseDir = None
-    def __new__(cls, baseDir='images'):
+    def __new__(cls, baseDir='/media/iomega/Dropbox/detection_output'):
         if not hasattr(cls, 'instance'):
             cls.instance = super(AsyncImWrite, cls).__new__(cls)
         else:
@@ -46,10 +46,19 @@ class AsyncImWrite:
                 break
             else:
                 result = cv2.imwrite(item.name, item.data)
-    def imwrite(self, name, data):
+    def imwrite(self, name, data, class, full):
         if (self.__baseDir):
-            name = os.path.join(self.__baseDir, name)
+            dirname = self.__baseDir
+            if (full):
+                dirname = os.path.join(dirname, class, 'full')
+            else:
+                dirname = os.path.join(dirname, class)
+
+            if not os.path.exists(dirname):
+                os.makedirs(dirname)
+
+            name = os.path.join(dirname, name)
         self.__q.put(Img(name=name, data=data))
 
 if __name__ == "__main__":
-    writer = AsyncImWrite()    
+    writer = AsyncImWrite()

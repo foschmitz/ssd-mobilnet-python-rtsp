@@ -21,9 +21,16 @@ asyncImWriter = AsyncImWrite()
 # default is to accept all object clasifications.
 # for example if object_classifications_mask[1] == 0 then
 #    will ignore aeroplanes
-object_classifications_mask = [0, 0, 0, 0, 0, 0, 1,
-                               1, 1, 0, 0, 0, 1, 1,
-                               1, 1, 0, 0, 0, 0, 0]
+
+#Detect Persons, Cats, Dogs, Cars
+#object_classifications_mask = [0, 0, 0, 0, 0, 0, 1,
+#                               1, 1, 0, 0, 0, 1, 1,
+#                               1, 1, 0, 0, 0, 0, 0]
+#
+# Detect all stuff for testing
+object_classifications_mask = [1, 1, 1, 1, 1, 1, 1,
+                              1, 1, 1, 1, 1, 1, 1,
+                              1, 1, 1, 1, 1, 1, 1]
 
 NETWORK_GRAPH_FILENAME = "./graph"
 
@@ -95,6 +102,7 @@ def overlay_on_image(display_image:numpy.ndarray, object_info_list:list):
     """
     source_image_width = display_image.shape[1]
     source_image_height = display_image.shape[0]
+    org_image = display_image.copy()
     agg_results = []
     for one_object in object_info_list:
         percentage = int(one_object[5] * 100)
@@ -131,15 +139,14 @@ def overlay_on_image(display_image:numpy.ndarray, object_info_list:list):
         cv2.putText(display_image, label_text, (label_left, label_bottom), cv2.FONT_HERSHEY_SIMPLEX, 0.5, label_text_color, 1)
         if one_object[0] == 'person':
             agg_results.append({'percentage': percentage, 'center': get_center_from_object_info(one_object)})
-        
+
         # Saving Images
-        filenameB = 'boundingbox_' + label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '.jpg'
-        filenameF = 'full_' + label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '.jpg'
-        
-        roi = display_image[box_top:box_bottom, box_left:box_right]
-        asyncImWriter.imwrite(filenameB, roi)
-        asyncImWriter.imwrite(filenameF, display_image)
-        print('saved', filenameF)
+        filename = label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '.jpg'
+
+        roi = org_image[box_top:box_bottom, box_left:box_right]
+        asyncImWriter.imwrite(filename, roi, label_text, False)
+        asyncImWriter.imwrite(filename, display_image, label_text, True)
+        print('saved', filename)
     return agg_results
 
 def handle_args():
@@ -311,13 +318,13 @@ def main():
 
             agg_results = overlay_on_image(display_image, filtered_objs)
             num_persons = len(agg_results)
-            
+
             if (resize_output):
                 display_image = cv2.resize(display_image,
                                             (resize_output_width, resize_output_height),
                                             cv2.INTER_LINEAR)
             cv2.imshow(cv_window_name, display_image)
-                
+
             raw_key = cv2.waitKey(1)
             if (raw_key != -1):
                 if (handle_keys(raw_key, obj_detector_proc) == False):

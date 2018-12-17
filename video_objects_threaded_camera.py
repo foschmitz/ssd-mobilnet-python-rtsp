@@ -34,7 +34,7 @@ min_score_percent = DEFAULT_INIT_MIN_SCORE
 # for title bar of GUI window
 cv_window_name = 'video_objects_threaded - SSD_MobileNet'
 # camera index starts from 0.
-CAMERA_INDEX = 0
+CAMERA_INDEX = 'rtsp://192.168.0.210:7447/5c0815246fc086430618d157_0'
 # the SsdMobileNetProcessor
 obj_detector_proc = None
 
@@ -43,8 +43,6 @@ video_proc = None
 last_num_persons = 0
 # The current saved image's index.
 save_index = 0
-# The max saved image, rotating overwrite oldest.
-MAX_SAVED_IMAGES = 1000
 # The Point named tuple to describe the center point, like a class.
 Point = namedtuple('Point', ['x', 'y'])
 # the resize_window arg will modify these if its specified on the commandline
@@ -249,7 +247,7 @@ def main():
     """
     global resize_output, resize_output_width, resize_output_height, \
            obj_detector_proc, resize_output, resize_output_width, resize_output_height, video_proc, \
-           last_num_persons, save_index, MAX_SAVED_IMAGES, asyncImWriter
+           last_num_persons, save_index, asyncImWriter
 
     if (not handle_args()):
         print_usage()

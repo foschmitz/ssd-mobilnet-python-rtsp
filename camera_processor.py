@@ -181,6 +181,7 @@ class CameraProcessor:
             print('video_processor _video_device is None, returning.')
             return
 
+        frame_counter = 0
         while (not self._end_flag):
             try:
                 while (self._pause_mode):
@@ -188,12 +189,16 @@ class CameraProcessor:
 
                 # Read from the video file
                 ret_val, input_image = self._video_device.read()
+                frame_counter = frame_counter + 1
 
                 if (not ret_val):
                     print("No image from video device, exiting")
                     break
-
-                self._network_processor.start_aysnc_inference(input_image)
+                if (frame_counter%3==0):
+                    print("Putting frame in queue")
+                    self._network_processor.start_aysnc_inference(input_image)
+                else:
+                    print("Skipping frame")
 
             except Exception:
                 # the video device is probably way faster than the processing

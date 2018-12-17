@@ -39,7 +39,7 @@ class SsdMobileNetProcessor:
                 graph_in_memory = graph_file.read()
             self._graph = mvnc.Graph("SSD MobileNet Graph")
             self._fifo_in, self._fifo_out = self._graph.allocate_with_fifos(ncs_device, graph_in_memory)
-            self._fifo_in.ncFifoSetOption(mvnc.FifoOption.RW_DONT_BLOCK,1)
+            self._fifo_in.set_option(mvnc.FifoOption.RW_DONT_BLOCK,1)
 
         except:
             print('\n\n')

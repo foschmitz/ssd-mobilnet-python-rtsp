@@ -136,9 +136,7 @@ def overlay_on_image(display_image:numpy.ndarray, object_info_list:list):
         filenameB = 'boundingbox_' + label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '.jpg'
         filenameF = 'full_' + label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '.jpg'
         
-        print('saving roi', box_left, box_top, box_right, box_bottom)
-        
-        roi = display_image[box_left:box_top, box_right:box_bottom]
+        roi = display_image[box_top:box_bottom, box_left:box_right]
         asyncImWriter.imwrite(filenameB, roi)
         asyncImWriter.imwrite(filenameF, display_image)
         print('saved', filenameF)

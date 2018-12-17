@@ -3,6 +3,8 @@
 ## Introduction
 Based on Tony607's [Threaded Videoprocessor](https://github.com/Tony607/video_objects_threaded)
 
+I am using this repo for dev on my ASUS Vivo Mini so don't mind the many crappy commits as I only have one Movidius stick at the time.
+
 The provided Makefile does the following:
 1. Builds caffe ssd mobilenet graph file from the caffe/SSD_MobileNet directory in the repository.
 2. Copies the built NCS graph file from the SSD_MobileNet directory to the project base directory

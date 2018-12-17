@@ -21,7 +21,7 @@ class AsyncImWrite:
             cls.instance.cleanup()
         return cls.instance
 
-    def __init__(self, baseDir='images'):
+    def __init__(self, baseDir='/media/iomega/Dropbox/detection_output'):
         self.__baseDir = baseDir
         if self.__baseDir:
             os.makedirs(self.__baseDir, exist_ok=True)

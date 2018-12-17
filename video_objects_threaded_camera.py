@@ -41,14 +41,12 @@ obj_detector_proc = None
 video_proc = None
 # Last known number of persons.
 last_num_persons = 0
-# The current saved image's index.
-save_index = 0
 # The Point named tuple to describe the center point, like a class.
 Point = namedtuple('Point', ['x', 'y'])
 # the resize_window arg will modify these if its specified on the commandline
-resize_output = False
-resize_output_width = 0
-resize_output_height = 0
+resize_output = True
+resize_output_width = 640
+resize_output_height = 360
 
 
 def handle_keys(raw_key:int, obj_detector_proc:SsdMobileNetProcessor):
@@ -247,7 +245,7 @@ def main():
     """
     global resize_output, resize_output_width, resize_output_height, \
            obj_detector_proc, resize_output, resize_output_width, resize_output_height, video_proc, \
-           last_num_persons, save_index, asyncImWriter
+           last_num_persons, asyncImWriter
 
     if (not handle_args()):
         print_usage()

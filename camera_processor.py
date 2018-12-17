@@ -39,7 +39,7 @@ class CameraProcessor:
         self._camera_index = camera_index
         self._request_video_width = request_video_width
         self._request_video_height = request_video_height
-        self._pause_mode = False
+        self._pause_mode = True
 
         # create the video device
         self._video_device = cv2.VideoCapture(self._camera_index)

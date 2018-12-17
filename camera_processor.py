@@ -142,7 +142,7 @@ class CameraProcessor:
 
         :return: None
         """
-        print('in video_processor worker thread')
+        print('[_do_work_queue] in video_processor worker thread')
         if (self._video_device == None):
             print('video_processor _video_device is None, returning.')
             return
@@ -176,7 +176,7 @@ class CameraProcessor:
 
         :return: None
         """
-        print('in video_processor worker thread')
+        print('[_do_work_network_processor] in video_processor worker thread')
         if (self._video_device == None):
             print('video_processor _video_device is None, returning.')
             return

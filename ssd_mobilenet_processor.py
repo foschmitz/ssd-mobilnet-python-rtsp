@@ -18,11 +18,17 @@ frames = Queue(10)
 class AsyncSsdMobileNetProcessor(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
+        print('AsyncSsdMobileNetProcessor initialized.')
 
     def run(self):
         global frames
         while True:
+
+            print('[AsyncSsdMobileNetProcessor] Trying to get frame')
+
             if(not frames.empty()):
+                print('[AsyncSsdMobileNetProcessor] Getting frame')
+
                 # resize image to network width and height
                 # then convert to float32, normalize (divide by 255),
                 # and finally convert to float16 to pass to LoadTensor as input
@@ -39,6 +45,8 @@ class AsyncSsdMobileNetProcessor(threading.Thread):
 
                 # Load tensor and get result.  This executes the inference on the NCS
                 self._graph.queue_inference_with_fifo_elem(self._fifo_in, self._fifo_out, inference_image.astype(numpy.float32), input_image)
+            else:
+                print('[AsyncSsdMobileNetProcessor] Frames empty')
 
 
 class SsdMobileNetProcessor:
@@ -124,7 +132,7 @@ class SsdMobileNetProcessor:
              it can be any size but is assumed to be opencv standard format of BGRBGRBGR...
         :return: None
         """
-
+        print('[start_aysnc_inference] Putting image in queue')
         frames.put(input_image)
         return
 
@@ -312,3 +320,4 @@ class SsdMobileNetProcessor:
 
 asyncSsdMobileNetProcessor = AsyncSsdMobileNetProcessor()
 asyncSsdMobileNetProcessor.start()
+asyncSsdMobileNetProcessor.join()

@@ -22,10 +22,16 @@ asyncImWriter = AsyncImWrite()
 # for example if object_classifications_mask[1] == 0 then
 #    will ignore aeroplanes
 
+
+#Only Persons
+object_classifications_mask = [0, 0, 0, 0, 0, 0, 0,
+                               0, 0, 0, 0, 0, 0, 0,
+                               0, 1, 0, 0, 0, 0, 0]
+
 #Detect Buses, Cars, Cats, Dogs, Horses, Motorbikes, Persons
-object_classifications_mask = [0, 0, 0, 0, 0, 0, 1,
-                               1, 1, 0, 0, 0, 1, 1,
-                               1, 1, 0, 0, 0, 0, 0]
+#object_classifications_mask = [0, 0, 0, 0, 0, 0, 1,
+#                               1, 1, 0, 0, 0, 1, 1,
+#                               1, 1, 0, 0, 0, 0, 0]
 
 # Detect all stuff for testing
 #object_classifications_mask = [1, 1, 1, 1, 1, 1, 1,
@@ -146,7 +152,7 @@ def overlay_on_image(display_image:numpy.ndarray, object_info_list:list):
             agg_results.append({'percentage': percentage, 'center': get_center_from_object_info(one_object)})
 
         # Saving Images
-        filename = label_text + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + '.jpg'
+        filename = label + '_' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f') + " (" + str(percentage) + "%)" + '.jpg'
 
         roi = org_image[box_top:box_bottom, box_left:box_right]
         asyncImWriter.imwrite(filename, roi, label, False)

@@ -65,6 +65,9 @@ resize_output_height = 360
 # Does not generate output
 show_output = False
 
+# Save the full frame also
+save_full = False
+
 
 def handle_keys(raw_key:int, obj_detector_proc:SsdMobileNetProcessor):
     """Handles key presses by adjusting global thresholds etc.
@@ -156,7 +159,8 @@ def overlay_on_image(display_image:numpy.ndarray, object_info_list:list):
 
         roi = org_image[box_top:box_bottom, box_left:box_right]
         asyncImWriter.imwrite(filename, roi, label, False)
-        asyncImWriter.imwrite(filename, display_image, label, True)
+        if (save_full):
+            asyncImWriter.imwrite(filename, display_image, label, True)
         print('saved', filename)
     return agg_results
 

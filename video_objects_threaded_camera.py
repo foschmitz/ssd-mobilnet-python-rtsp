@@ -48,7 +48,7 @@ min_score_percent = DEFAULT_INIT_MIN_SCORE
 # for title bar of GUI window
 cv_window_name = 'video_objects_threaded - SSD_MobileNet'
 # camera index starts from 0.
-CAMERA_INDEX = 'rtsp://192.168.0.210:7447/5c0815246fc086430618d157_0'
+CAMERA_INDEX = 'rtsp://192.168.1.210:7447/5c0815246fc086430618d157_0'
 # the SsdMobileNetProcessor
 obj_detector_proc = None
 

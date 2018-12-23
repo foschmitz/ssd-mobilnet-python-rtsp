@@ -161,7 +161,7 @@ def overlay_on_image(display_image:numpy.ndarray, object_info_list:list):
         asyncImWriter.imwrite(filename, roi, label, False)
         if (save_full):
             asyncImWriter.imwrite(filename, display_image, label, True)
-        print('saved', filename)
+        print('[' + datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S_%f')  + '] saved', filename)
     return agg_results
 
 def handle_args():

@@ -5,6 +5,8 @@ import codecs
 import cv2
 from collections import namedtuple
 import os
+import datetime
+
 Img = namedtuple('Img', ['name', 'data'])
 class QueueSignal(Enum):
     EXIT = 0
@@ -48,7 +50,7 @@ class AsyncImWrite:
                 result = cv2.imwrite(item.name, item.data)
     def imwrite(self, name, data, label, full):
         if (self.__baseDir):
-            dirname = self.__baseDir
+            dirname = os.path.join(self.__baseDir, datetime.datetime.now().strftime('%Y-%m-%d'))
             if (full):
                 dirname = os.path.join(dirname, label, 'full')
             else:
